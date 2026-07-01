@@ -13,8 +13,9 @@ export default defineConfig({
     server: { entry: "server" },
   },
   nitro: {
-    // Set preset to "vercel" for Vercel deployment.
-    // Change to "cloudflare-module" if deploying to Cloudflare Pages.
-    preset: "vercel",
+    // "vercel-edge" uses Vercel's Edge Runtime (Web Fetch API compatible).
+    // This matches server.ts which exports a Cloudflare Workers-style { fetch } handler.
+    // "vercel" (Node.js runtime) is NOT compatible with that handler format.
+    preset: "vercel-edge",
   },
 });
