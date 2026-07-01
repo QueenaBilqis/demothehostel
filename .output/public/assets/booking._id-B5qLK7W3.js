@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BpRO-UL9.js";import{n as t}from"./MobileFrame-BlU2WWiD.js";var n=e(),r=()=>(0,n.jsx)(t,{children:(0,n.jsx)(`div`,{className:`p-10 text-center`,children:`Hostel not found.`})});export{r as notFoundComponent};

@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BpRO-UL9.js";import{n as t}from"./MobileFrame-BlU2WWiD.js";var n=e(),r=({error:e})=>(0,n.jsx)(t,{children:(0,n.jsx)(`div`,{className:`p-10 text-center text-sm text-muted-foreground`,children:e.message})});export{r as errorComponent};
