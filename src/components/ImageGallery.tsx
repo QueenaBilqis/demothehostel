@@ -33,7 +33,7 @@ export default function ImageGallery({ images, title }: { images: string[]; titl
                   src={src}
                   alt={`${title} - ${idx + 1}`}
                   className="w-full h-72 object-cover cursor-pointer"
-                  loading="lazy"
+                  loading={idx === 0 ? "eager" : "lazy"}
                   onClick={() => setFullScreen(true)}
                 />
               </div>

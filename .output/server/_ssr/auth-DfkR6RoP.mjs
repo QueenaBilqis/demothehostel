@@ -1,5 +1,5 @@
-import { r as __toESM } from "../_runtime.mjs";
-import { S as require_react } from "../_libs/@react-leaflet/core+[...].mjs";
+import { n as __toESM } from "../_runtime.mjs";
+import { r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/auth-DfkR6RoP.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var currentUser = null;

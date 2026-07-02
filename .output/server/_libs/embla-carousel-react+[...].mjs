@@ -1,5 +1,5 @@
-import { r as __toESM } from "../_runtime.mjs";
-import { S as require_react } from "./@react-leaflet/core+[...].mjs";
+import { n as __toESM } from "../_runtime.mjs";
+import { r as require_react } from "./react+tanstack__react-query.mjs";
 import { t as EmblaCarousel } from "./embla-carousel.mjs";
 //#region node_modules/embla-carousel-reactive-utils/esm/embla-carousel-reactive-utils.esm.js
 var import_react = /* @__PURE__ */ __toESM(require_react());

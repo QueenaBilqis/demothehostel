@@ -1,41 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Hostel } from "@/lib/hostels";
 
 export default function LeafletMap({ hostel }: { hostel: Hostel }) {
-  const [L, setL] = useState<any>(null);
-  const [MapContainer, setMapContainer] = useState<any>(null);
-  const [TileLayer, setTileLayer] = useState<any>(null);
-  const [Marker, setMarker] = useState<any>(null);
-  const [Popup, setPopup] = useState<any>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<any>(null);
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-    // Dynamic import to avoid SSR issues since Leaflet requires window
-    Promise.all([
-      import("leaflet"),
-      import("react-leaflet")
-    ]).then(([leaflet, reactLeaflet]) => {
-      setL(leaflet.default || leaflet);
-      setMapContainer(reactLeaflet.MapContainer);
-      setTileLayer(reactLeaflet.TileLayer);
-      setMarker(reactLeaflet.Marker);
-      setPopup(reactLeaflet.Popup);
-
-      // Fix missing marker icons
-      const LInstance = leaflet.default || leaflet;
-      delete (LInstance.Icon.Default.prototype as any)._getIconUrl;
-      LInstance.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      });
-    });
-  }, []);
-
-  if (!isClient || !L || !MapContainer) {
-    return <div className="w-full h-full bg-secondary animate-pulse" />;
-  }
 
   // Define coordinates based on hostel id
   const coords: Record<string, [number, number]> = {
@@ -43,34 +12,59 @@ export default function LeafletMap({ hostel }: { hostel: Hostel }) {
     atelier: [1.2820, 103.8440],  // Chinatown Singapore
     stellar: [-8.6913, 115.1631], // Seminyak Bali
   };
-
   const position = coords[hostel.id] || [1.2825, 103.8443];
-  
+
   const getDirectionsUrl = () => {
     return `https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`;
   };
 
+  useEffect(() => {
+    setIsClient(true);
+    let isMounted = true;
+    
+    // Dynamic import to avoid SSR issues since Leaflet requires window
+    import("leaflet").then((leaflet) => {
+      if (!isMounted) return;
+      const L = leaflet.default || leaflet;
+
+      // Fix missing marker icons
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
+
+      if (mapRef.current && !mapInstance.current) {
+        const map = L.map(mapRef.current).setView(position, 15);
+        mapInstance.current = map;
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        L.marker(position).addTo(map)
+          .bindPopup(`<div class="font-semibold">${hostel.name}</div><div class="text-xs text-muted-foreground">${hostel.city}, ${hostel.country}</div>`);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
+      }
+    };
+  }, [hostel.id, hostel.name, hostel.city, hostel.country, position[0], position[1]]);
+
+  if (!isClient) {
+    return <div className="w-full h-full bg-secondary animate-pulse" />;
+  }
+
   return (
     <div className="relative w-full h-full rounded-2xl overflow-hidden z-0">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <MapContainer
-        center={position}
-        zoom={15}
-        scrollWheelZoom={false}
-        className="w-full h-full"
-        style={{ zIndex: 0 }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position}>
-          <Popup>
-            <div className="font-semibold">{hostel.name}</div>
-            <div className="text-xs text-muted-foreground">{hostel.city}, {hostel.country}</div>
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <div ref={mapRef} className="w-full h-full" style={{ zIndex: 0 }} />
       <a
         href={getDirectionsUrl()}
         target="_blank"

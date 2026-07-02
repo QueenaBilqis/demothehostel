@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useNavigate } from "@tanstack/react-router";
 import ImageGallery from "@/components/ImageGallery";
-import LeafletMap from "@/components/LeafletMap";
+import { lazy, Suspense } from "react";
+const LeafletMap = lazy(() => import("@/components/LeafletMap"));
 export const Route = createFileRoute("/hostels/$id")({
   head: ({ params }) => {
     const h = getHostel(params.id);
@@ -140,7 +141,9 @@ function HostelDetail() {
               </ul>
               <h3 className="mt-5 font-semibold text-[15px]">Location</h3>
               <div className="mt-2 rounded-2xl overflow-hidden border border-border h-48 bg-secondary relative">
-                <LeafletMap hostel={h} />
+                <Suspense fallback={<div className="w-full h-full bg-secondary animate-pulse" />}>
+                  <LeafletMap hostel={h} />
+                </Suspense>
               </div>
             </div>
           )}

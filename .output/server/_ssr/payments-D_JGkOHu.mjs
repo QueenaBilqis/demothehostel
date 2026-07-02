@@ -1,0 +1,56 @@
+import { n as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+import { t as useAuth } from "./auth-DfkR6RoP.mjs";
+import { t as api } from "./api-BEiVPuR3.mjs";
+import { n as formatCurrency } from "./store-qnqdex7O.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/payments-D_JGkOHu.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+function AdminPayments() {
+	const { user } = useAuth();
+	const hostelId = user?.role;
+	const [bookings, setBookings] = (0, import_react.useState)([]);
+	(0, import_react.useEffect)(() => {
+		if (hostelId && hostelId !== "customer") api.getBookings(hostelId).then(setBookings);
+	}, [hostelId]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "flex flex-col gap-4 p-4 max-w-[420px] mx-auto",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+			className: "text-[20px] font-bold",
+			children: "Payments & Transactions"
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "flex flex-col gap-3 mt-2",
+			children: [bookings.map((b) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "bg-card border border-border rounded-2xl p-4 shadow-sm flex flex-col gap-3 relative",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between items-start",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "font-bold text-[14px] leading-tight text-foreground",
+						children: ["TXN-", b.id.replace("BK", "")]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "text-[12px] text-muted-foreground mt-0.5",
+						children: ["Ref: ", b.id]
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: `px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide
+                ${b.status !== "cancelled" ? "bg-green-500/10 text-green-600" : "bg-destructive/10 text-destructive"}`,
+						children: b.status !== "cancelled" ? "Paid" : "Refunded"
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex items-center justify-between pt-3 border-t border-border",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "font-bold text-primary text-[15px]",
+						children: formatCurrency(b.total)
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-[12px] font-bold text-muted-foreground uppercase bg-secondary px-2 py-1 rounded-md",
+						children: b.paymentMethod || "QRIS"
+					})]
+				})]
+			}, b.id)), bookings.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "p-8 text-center text-muted-foreground text-[13px] bg-card border border-border rounded-2xl shadow-sm",
+				children: "No transactions found."
+			})]
+		})]
+	});
+}
+//#endregion
+export { AdminPayments as component };

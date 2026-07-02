@@ -1,0 +1,118 @@
+import { n as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+import { t as useAuth } from "./auth-DfkR6RoP.mjs";
+import { t as api } from "./api-BEiVPuR3.mjs";
+import { n as formatCurrency } from "./store-qnqdex7O.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/bookings-DMhLUDi7.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+function AdminBookings() {
+	const { user } = useAuth();
+	const hostelId = user?.role;
+	const [bookings, setBookings] = (0, import_react.useState)([]);
+	const [filter, setFilter] = (0, import_react.useState)("all");
+	(0, import_react.useEffect)(() => {
+		if (hostelId && hostelId !== "customer") loadBookings();
+	}, [hostelId]);
+	const loadBookings = () => {
+		api.getBookings(hostelId).then(setBookings);
+	};
+	const updateStatus = async (id, status) => {
+		await api.updateBookingStatus(id, status);
+		loadBookings();
+	};
+	const filtered = filter === "all" ? bookings : bookings.filter((b) => b.status === filter);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "flex flex-col gap-4 p-4 max-w-[420px] mx-auto pb-8",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "flex flex-col gap-3",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+				className: "text-[20px] font-bold",
+				children: "Manage Bookings"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "flex gap-2 bg-secondary p-1 rounded-xl text-[12px] font-medium overflow-x-auto hide-scrollbar",
+				children: [
+					"all",
+					"pending",
+					"confirmed",
+					"completed",
+					"cancelled"
+				].map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+					onClick: () => setFilter(t),
+					className: `px-4 py-1.5 rounded-lg capitalize transition ${filter === t ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`,
+					children: t
+				}, t))
+			})]
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "flex flex-col gap-3 mt-4",
+			children: [filtered.map((b) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "bg-card border border-border rounded-2xl p-4 shadow-sm flex flex-col gap-3 relative",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between items-start",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "pr-16",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "font-bold text-[15px] leading-tight text-foreground",
+								children: b.guestName
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "text-[12px] text-muted-foreground mt-0.5",
+								children: [
+									b.id,
+									" • Room ",
+									b.roomId
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "text-[12px] font-medium text-foreground mt-1",
+								children: [
+									new Date(b.checkIn).toLocaleDateString(),
+									" - ",
+									new Date(b.checkOut).toLocaleDateString()
+								]
+							})
+						]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "absolute top-4 right-4",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: `px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide
+                  ${b.status === "completed" ? "bg-green-500/10 text-green-600" : b.status === "cancelled" ? "bg-destructive/10 text-destructive" : b.status === "confirmed" ? "bg-blue-500/10 text-blue-600" : "bg-orange-500/10 text-orange-600"}`,
+							children: b.status
+						})
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex items-center justify-between pt-3 border-t border-border",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "font-bold text-primary text-[15px]",
+						children: formatCurrency(b.total)
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex gap-2",
+						children: [
+							b.status === "pending" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+								onClick: () => updateStatus(b.id, "confirmed"),
+								className: "bg-primary text-primary-foreground px-3 py-1.5 rounded-lg text-[12px] font-bold active:scale-95 transition-transform",
+								children: "Confirm"
+							}),
+							(b.status === "pending" || b.status === "confirmed") && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+								onClick: () => updateStatus(b.id, "cancelled"),
+								className: "bg-destructive/10 text-destructive px-3 py-1.5 rounded-lg text-[12px] font-bold active:scale-95 transition-transform",
+								children: "Cancel"
+							}),
+							b.status === "confirmed" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+								onClick: () => updateStatus(b.id, "completed"),
+								className: "bg-green-500/10 text-green-600 px-3 py-1.5 rounded-lg text-[12px] font-bold active:scale-95 transition-transform",
+								children: "Complete"
+							})
+						]
+					})]
+				})]
+			}, b.id)), filtered.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "p-8 text-center text-muted-foreground text-[13px] bg-card border border-border rounded-2xl shadow-sm",
+				children: "No bookings found in this view."
+			})]
+		})]
+	});
+}
+//#endregion
+export { AdminBookings as component };

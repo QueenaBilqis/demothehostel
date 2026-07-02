@@ -1,0 +1,476 @@
+import { n as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+import { _ as useNavigate, g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { n as MobileFrame, t as Icon } from "./MobileFrame-u4Sg7FL7.mjs";
+import { t as useAuth } from "./auth-DfkR6RoP.mjs";
+import { i as useLanguage, r as useBookings } from "./store-qnqdex7O.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/profile-CMClovzh.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+function initials(name) {
+	if (!name) return "G";
+	return name.split(" ").filter(Boolean).slice(0, 2).map((s) => s[0]?.toUpperCase()).join("") || "G";
+}
+var T = {
+	en: {
+		profile: "Profile",
+		guest: "Guest Traveler",
+		notLoggedIn: "Not logged in",
+		totalBookings: "Total bookings",
+		upcomingStays: "Upcoming stays",
+		settings: "Settings",
+		personalInfo: "Personal information",
+		bookingHistory: "Booking history",
+		paymentMethods: "Payment methods",
+		language: "Language",
+		helpCenter: "Help center",
+		logout: "Log out",
+		signIn: "Sign In to access features",
+		saveChanges: "Save Changes",
+		fullName: "Full Name",
+		email: "Email Address",
+		phone: "Phone Number",
+		addMethod: "Add New Method",
+		expires: "Expires",
+		needHelp: "Need assistance?",
+		helpDesc: "Our support team is available 24/7 to help you with your bookings.",
+		chat: "Chat with us",
+		faq: "FAQ",
+		faq1: "How to cancel a booking?",
+		faq2: "What is the refund policy?",
+		faq3: "Can I change my dates?",
+		personalTitle: "Personal Info",
+		paymentTitle: "Payment Methods",
+		langTitle: "Language Options",
+		helpTitle: "Help Center"
+	},
+	id: {
+		profile: "Profil",
+		guest: "Tamu",
+		notLoggedIn: "Belum masuk",
+		totalBookings: "Total pesanan",
+		upcomingStays: "Inap mendatang",
+		settings: "Pengaturan",
+		personalInfo: "Informasi Pribadi",
+		bookingHistory: "Riwayat Pesanan",
+		paymentMethods: "Metode Pembayaran",
+		language: "Bahasa",
+		helpCenter: "Pusat Bantuan",
+		logout: "Keluar",
+		signIn: "Masuk untuk fitur penuh",
+		saveChanges: "Simpan Perubahan",
+		fullName: "Nama Lengkap",
+		email: "Alamat Email",
+		phone: "Nomor Telepon",
+		addMethod: "Tambah Metode",
+		expires: "Berlaku s/d",
+		needHelp: "Butuh bantuan?",
+		helpDesc: "Tim dukungan kami siap membantu Anda 24/7.",
+		chat: "Chat dengan kami",
+		faq: "Tanya Jawab",
+		faq1: "Bagaimana cara membatalkan?",
+		faq2: "Apa kebijakan pengembalian dana?",
+		faq3: "Bisakah mengubah tanggal?",
+		personalTitle: "Info Pribadi",
+		paymentTitle: "Metode Pembayaran",
+		langTitle: "Pilihan Bahasa",
+		helpTitle: "Pusat Bantuan"
+	}
+};
+function ProfilePage() {
+	const { user, logout } = useAuth();
+	const [bookings] = useBookings();
+	const nav = useNavigate();
+	const [activeModal, setActiveModal] = (0, import_react.useState)(null);
+	const [lang, setLang] = useLanguage();
+	const [cards, setCards] = (0, import_react.useState)([{
+		id: 1,
+		type: "VISA",
+		last4: "4242",
+		expiry: "12/28"
+	}]);
+	const [editingCard, setEditingCard] = (0, import_react.useState)(null);
+	const [openFaq, setOpenFaq] = (0, import_react.useState)(null);
+	const t = T[lang];
+	const items = [
+		{
+			icon: "person",
+			label: t.personalInfo,
+			action: () => user ? setActiveModal("personal") : void 0
+		},
+		{
+			icon: "history",
+			label: t.bookingHistory,
+			to: user ? "/bookings" : void 0
+		},
+		{
+			icon: "credit_card",
+			label: t.paymentMethods,
+			action: () => user ? setActiveModal("payment") : void 0
+		},
+		{
+			icon: "language",
+			label: `${t.language} · ${lang === "en" ? "English" : "Indonesia"}`,
+			action: () => user ? setActiveModal("language") : void 0
+		},
+		{
+			icon: "help",
+			label: t.helpCenter,
+			action: () => user ? setActiveModal("help") : void 0
+		}
+	];
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(MobileFrame, { children: [
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
+			className: "px-4 pt-6 pb-3 flex items-center justify-between",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+				className: "text-[22px] font-semibold",
+				children: t.profile
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+				to: "/notifications",
+				className: "w-9 h-9 grid place-items-center rounded-full bg-secondary active:scale-95 transition-transform",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+					name: "notifications",
+					className: "text-[18px]"
+				})
+			})]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+			className: "px-4",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "rounded-2xl bg-card border border-border p-4 flex items-center gap-4 shadow-sm",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "w-14 h-14 rounded-full bg-primary text-primary-foreground grid place-items-center font-semibold text-[18px]",
+					children: initials(user?.name)
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex-1",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "w-full bg-transparent font-bold text-[16px]",
+						children: user ? user.name : t.guest
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "w-full bg-transparent text-[13px] text-muted-foreground",
+						children: user ? user.email : t.notLoggedIn
+					})]
+				})]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid grid-cols-2 gap-2 mt-3",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "rounded-xl border border-border bg-card p-3 flex flex-col justify-center shadow-sm",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-[20px] font-bold",
+						children: user ? (bookings || []).length : 0
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-[11px] text-muted-foreground mt-0.5 font-medium uppercase tracking-wide",
+						children: t.totalBookings
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "rounded-xl border border-border bg-card p-3 flex flex-col justify-center shadow-sm",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-[20px] font-bold",
+						children: user ? (bookings || []).filter((b) => b.status === "upcoming").length : 0
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-[11px] text-muted-foreground mt-0.5 font-medium uppercase tracking-wide",
+						children: t.upcomingStays
+					})]
+				})]
+			})]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+			className: "px-4 pt-6",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+				className: "font-bold text-[15px] mb-3 px-1 uppercase tracking-wide text-muted-foreground",
+				children: t.settings
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden shadow-sm",
+				children: items.map((it) => {
+					const inner = /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "w-8 h-8 rounded-full bg-secondary grid place-items-center text-foreground",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+								name: it.icon,
+								className: "text-[18px]"
+							})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "flex-1 font-bold text-[14px] text-left",
+							children: it.label
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+							name: "chevron_right",
+							className: "text-[20px] text-muted-foreground"
+						})
+					] });
+					if (it.to) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: it.to,
+						className: "flex items-center gap-3 px-4 py-3.5 hover:bg-secondary/50 active:bg-secondary transition-colors",
+						children: inner
+					}, it.label);
+					return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						onClick: it.action,
+						className: "w-full flex items-center gap-3 px-4 py-3.5 hover:bg-secondary/50 active:bg-secondary transition-colors",
+						children: inner
+					}, it.label);
+				})
+			})]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "px-4 py-8",
+			children: user ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+				onClick: () => {
+					logout();
+					nav({ to: "/login" });
+				},
+				className: "w-full rounded-xl border border-destructive/20 text-destructive bg-destructive/5 font-bold text-[14px] py-4 active:scale-[0.98] transition-all",
+				children: t.logout
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+				onClick: () => nav({
+					to: "/login",
+					search: { redirect: "/profile" }
+				}),
+				className: "w-full rounded-xl bg-primary text-primary-foreground font-bold text-[14px] py-4 active:scale-[0.98] transition-all shadow-md shadow-primary/20",
+				children: t.signIn
+			})
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+			className: "text-center text-[11px] font-bold text-muted-foreground uppercase tracking-widest mt-2 opacity-50 pb-8",
+			children: "TheHostel · v1.0"
+		}),
+		activeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "absolute inset-0 z-50 bg-background flex flex-col animate-in slide-in-from-bottom-8 fade-in duration-200",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
+				className: "px-4 py-4 flex items-center gap-4 border-b border-border bg-card",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+					onClick: () => {
+						if (editingCard) {
+							setEditingCard(null);
+							return;
+						}
+						setActiveModal(null);
+					},
+					className: "w-10 h-10 rounded-full bg-secondary grid place-items-center active:scale-95 transition-transform",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+						name: "arrow_back",
+						className: "text-[20px]"
+					})
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+					className: "text-[18px] font-bold capitalize",
+					children: activeModal === "personal" ? t.personalTitle : activeModal === "payment" ? editingCard ? "Manage Card" : t.paymentTitle : activeModal === "language" ? t.langTitle : t.helpTitle
+				})]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex-1 overflow-y-auto p-4 pb-24 bg-secondary/30",
+				children: [
+					activeModal === "personal" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex flex-col gap-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-card border border-border p-4 rounded-2xl flex flex-col gap-4 shadow-sm",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+									className: "text-[11px] font-bold text-muted-foreground uppercase tracking-wide block mb-1",
+									children: t.fullName
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+									type: "text",
+									defaultValue: user?.name,
+									className: "w-full bg-secondary rounded-xl px-4 py-3 text-[14px] font-semibold outline-none focus:ring-1 focus:ring-primary"
+								})] }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+									className: "text-[11px] font-bold text-muted-foreground uppercase tracking-wide block mb-1",
+									children: t.email
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+									type: "email",
+									defaultValue: user?.email,
+									disabled: true,
+									className: "w-full bg-secondary/50 rounded-xl px-4 py-3 text-[14px] font-semibold text-muted-foreground outline-none"
+								})] }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+									className: "text-[11px] font-bold text-muted-foreground uppercase tracking-wide block mb-1",
+									children: t.phone
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+									type: "tel",
+									placeholder: "+62 812 3456 7890",
+									className: "w-full bg-secondary rounded-xl px-4 py-3 text-[14px] font-semibold outline-none focus:ring-1 focus:ring-primary"
+								})] })
+							]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: () => setActiveModal(null),
+							className: "w-full bg-primary text-primary-foreground font-bold rounded-xl py-4 shadow-sm active:scale-[0.98] transition-transform",
+							children: t.saveChanges
+						})]
+					}),
+					activeModal === "payment" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "flex flex-col gap-4",
+						children: editingCard ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-card border border-border p-4 rounded-2xl flex flex-col gap-4 shadow-sm",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+									className: "text-[11px] font-bold text-muted-foreground uppercase tracking-wide block mb-1",
+									children: "Card Number"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+									type: "text",
+									placeholder: "•••• •••• •••• ••••",
+									defaultValue: editingCard.last4 ? `•••• •••• •••• ${editingCard.last4}` : "",
+									className: "w-full bg-secondary rounded-xl px-4 py-3 text-[14px] font-semibold outline-none focus:ring-1 focus:ring-primary"
+								})] }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex gap-4",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "flex-1",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+											className: "text-[11px] font-bold text-muted-foreground uppercase tracking-wide block mb-1",
+											children: t.expires
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+											type: "text",
+											placeholder: "MM/YY",
+											defaultValue: editingCard.expiry,
+											className: "w-full bg-secondary rounded-xl px-4 py-3 text-[14px] font-semibold outline-none focus:ring-1 focus:ring-primary"
+										})]
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "flex-1",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+											className: "text-[11px] font-bold text-muted-foreground uppercase tracking-wide block mb-1",
+											children: "CVC"
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+											type: "password",
+											placeholder: "•••",
+											className: "w-full bg-secondary rounded-xl px-4 py-3 text-[14px] font-semibold outline-none focus:ring-1 focus:ring-primary"
+										})]
+									})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex gap-2 mt-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										onClick: () => setEditingCard(null),
+										className: "flex-1 bg-primary text-primary-foreground font-bold rounded-xl py-3.5 shadow-sm active:scale-[0.98] transition-transform",
+										children: "Save"
+									}), editingCard.id && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										onClick: () => {
+											setCards(cards.filter((c) => c.id !== editingCard.id));
+											setEditingCard(null);
+										},
+										className: "w-12 h-12 bg-destructive/10 text-destructive rounded-xl grid place-items-center active:scale-[0.98] transition-transform",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+											name: "delete",
+											className: "text-[20px]"
+										})
+									})]
+								})
+							]
+						}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+							cards.map((c) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "bg-card border border-border p-4 rounded-2xl flex items-center gap-4 shadow-sm",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "w-12 h-8 rounded bg-[#1A1F71] text-white font-bold text-[10px] grid place-items-center italic",
+										children: c.type
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "flex-1",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "font-bold text-[14px]",
+											children: ["•••• •••• •••• ", c.last4]
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "text-[11px] text-muted-foreground font-medium mt-0.5",
+											children: [
+												t.expires,
+												" ",
+												c.expiry
+											]
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										onClick: () => setEditingCard(c),
+										className: "w-8 h-8 rounded-full bg-secondary grid place-items-center text-muted-foreground active:scale-95 transition-transform",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+											name: "edit",
+											className: "text-[16px]"
+										})
+									})
+								]
+							}, c.id)),
+							cards.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "text-center py-6 text-[13px] text-muted-foreground",
+								children: "No payment methods saved."
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+								onClick: () => setEditingCard({
+									type: "CARD",
+									last4: "",
+									expiry: ""
+								}),
+								className: "w-full border-2 border-dashed border-border text-foreground font-bold rounded-2xl py-4 flex items-center justify-center gap-2 active:bg-secondary transition-colors",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+										name: "add",
+										className: "text-[18px]"
+									}),
+									" ",
+									t.addMethod
+								]
+							})
+						] })
+					}),
+					activeModal === "language" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "bg-card border border-border rounded-2xl overflow-hidden shadow-sm flex flex-col",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							onClick: () => {
+								setLang("en");
+								setActiveModal(null);
+							},
+							className: `flex items-center justify-between p-4 active:bg-secondary transition-colors`,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "font-bold text-[14px]",
+								children: "English (US)"
+							}), lang === "en" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+								name: "check",
+								className: "text-primary text-[20px]"
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							onClick: () => {
+								setLang("id");
+								setActiveModal(null);
+							},
+							className: `flex items-center justify-between p-4 border-t border-border active:bg-secondary transition-colors`,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "font-bold text-[14px]",
+								children: "Bahasa Indonesia"
+							}), lang === "id" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+								name: "check",
+								className: "text-primary text-[20px]"
+							})]
+						})]
+					}),
+					activeModal === "help" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "flex flex-col gap-4",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-card border border-border rounded-2xl overflow-hidden shadow-sm flex flex-col mt-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "p-4 border-b border-border font-bold text-[14px] bg-secondary/30",
+								children: t.faq
+							}), [
+								t.faq1,
+								t.faq2,
+								t.faq3
+							].map((q, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: `flex flex-col ${i !== 0 ? "border-t border-border" : ""}`,
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+									onClick: () => setOpenFaq(openFaq === i ? null : i),
+									className: "flex items-center justify-between p-4 active:bg-secondary transition-colors text-left",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "font-semibold text-[13px]",
+										children: q
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+										name: openFaq === i ? "expand_less" : "expand_more",
+										className: "text-muted-foreground text-[18px]"
+									})]
+								}), openFaq === i && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "px-4 pb-4 text-[13px] text-muted-foreground leading-relaxed animate-in fade-in slide-in-from-top-2 duration-200",
+									children: i === 0 ? "You can cancel any booking up to 24 hours before check-in through your Booking History tab." : i === 1 ? "Full refunds are automatically processed to your original payment method for eligible cancellations." : "To change your dates, please cancel your current booking and create a new reservation."
+								})]
+							}, i))]
+						})
+					})
+				]
+			})]
+		})
+	] });
+}
+//#endregion
+export { ProfilePage as component };
